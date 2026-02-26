@@ -1,0 +1,732 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Events — Utsaha Vaibhava 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel:wght@600;700;900&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        /* ── PAGE HERO ── */
+        .events-hero {
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 160px 0 64px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .events-hero-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 clamp(16px, 4vw, 64px);
+        }
+
+        /* ── FILTER BAR ── */
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 52px 0 48px;
+        }
+
+        .filter-btn {
+            padding: 10px 24px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            background: rgba(255, 255, 255, .04);
+            color: rgba(255, 255, 255, .5);
+            font-family: var(--font-ui);
+            font-size: .83rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .3s cubic-bezier(.34, 1.56, .64, 1);
+            letter-spacing: .05em;
+            backdrop-filter: blur(12px);
+        }
+
+        .filter-btn:hover {
+            border-color: rgba(255, 77, 0, .5);
+            color: var(--c-orange);
+            background: rgba(255, 77, 0, .06);
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--c-orange), var(--c-pink));
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 4px 24px rgba(255, 77, 0, .4), 0 0 0 1px rgba(255, 77, 0, .2);
+        }
+
+        /* ── GRID ── */
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 32px;
+            padding-bottom: 120px;
+        }
+
+        /* ── CARD SCROLL REVEAL ── */
+        .ev-card {
+            opacity: 0;
+            transform: translateY(48px) scale(0.96);
+            transition:
+                opacity .6s cubic-bezier(.22, 1, .36, 1),
+                transform .6s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        .ev-card.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* stagger delays */
+        .ev-card:nth-child(3n+2) {
+            transition-delay: .12s;
+        }
+
+        .ev-card:nth-child(3n+3) {
+            transition-delay: .24s;
+        }
+
+        .ev-card.hidden {
+            display: none !important;
+        }
+
+        /* ── CARD SHELL ── */
+        .ev-card-inner {
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            cursor: pointer;
+            transition:
+                transform .45s cubic-bezier(.34, 1.56, .64, 1),
+                box-shadow .45s ease;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        .ev-card-inner:hover {
+            transform: translateY(-14px) rotateX(2deg);
+            box-shadow:
+                0 32px 80px rgba(0, 0, 0, .65),
+                0 0 0 1px var(--card-accent),
+                0 0 60px var(--card-glow);
+        }
+
+        /* ── CARD TOP BANNER ── */
+        .ev-top {
+            position: relative;
+            height: 140px;
+            overflow: hidden;
+            background: var(--card-top-grad);
+            flex-shrink: 0;
+        }
+
+        /* large decorative background emoji */
+        .ev-top-bg-icon {
+            position: absolute;
+            right: -10px;
+            top: -10px;
+            font-size: 9rem;
+            opacity: .12;
+            transform: rotate(15deg);
+            pointer-events: none;
+            user-select: none;
+            filter: blur(2px);
+            transition: transform .5s ease, opacity .5s ease;
+        }
+
+        .ev-card-inner:hover .ev-top-bg-icon {
+            transform: rotate(5deg) scale(1.1);
+            opacity: .18;
+        }
+
+        /* sheen sweep on hover */
+        .ev-top::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(110deg, transparent 35%, rgba(255, 255, 255, .08) 50%, transparent 65%);
+            transform: translateX(-100%);
+            transition: transform .6s ease;
+        }
+
+        .ev-card-inner:hover .ev-top::after {
+            transform: translateX(200%);
+        }
+
+        /* category pill + icon row inside top */
+        .ev-top-row {
+            position: absolute;
+            bottom: 16px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1;
+        }
+
+        .ev-cat-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 14px;
+            border-radius: 999px;
+            font-size: .7rem;
+            font-weight: 700;
+            letter-spacing: .09em;
+            text-transform: uppercase;
+            background: rgba(0, 0, 0, .35);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, .15);
+            color: #fff;
+        }
+
+        .ev-icon-box {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: rgba(0, 0, 0, .3);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, .18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            transition: transform .4s cubic-bezier(.34, 1.56, .64, 1);
+        }
+
+        .ev-card-inner:hover .ev-icon-box {
+            transform: scale(1.15) rotate(-8deg);
+        }
+
+        /* ── CARD BODY ── */
+        .ev-body {
+            padding: 24px 24px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .ev-name {
+            font-family: var(--font-hero);
+            font-size: 2rem;
+            letter-spacing: .04em;
+            color: #fff;
+            line-height: 1;
+            transition: color .25s;
+        }
+
+        .ev-card-inner:hover .ev-name {
+            color: var(--card-accent-color);
+        }
+
+        .ev-desc {
+            font-size: .84rem;
+            color: rgba(245, 240, 255, .5);
+            line-height: 1.7;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* prize banner */
+        .ev-prize {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            background: var(--card-prize-bg);
+            border: 1px solid var(--card-prize-border);
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--card-accent-color);
+            letter-spacing: .04em;
+            margin-top: 4px;
+        }
+
+        .ev-prize-label {
+            font-size: .65rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, .4);
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            margin-left: auto;
+        }
+
+        /* meta row */
+        .ev-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .ev-meta-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: .72rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid rgba(255, 255, 255, .07);
+            color: rgba(255, 255, 255, .45);
+            transition: all .25s ease;
+        }
+
+        .ev-card-inner:hover .ev-meta-tag {
+            background: rgba(255, 255, 255, .08);
+            color: rgba(255, 255, 255, .65);
+        }
+
+        /* ── CARD FOOTER CTA ── */
+        .ev-footer {
+            padding: 0 24px 24px;
+        }
+
+        .ev-cta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 13px 20px;
+            border-radius: 14px;
+            font-family: var(--font-ui);
+            font-size: .88rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: #fff;
+            background: var(--card-top-grad);
+            position: relative;
+            overflow: hidden;
+            transition: all .35s cubic-bezier(.34, 1.56, .64, 1);
+            letter-spacing: .03em;
+        }
+
+        .ev-cta::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, .18), transparent 60%);
+            opacity: 0;
+            transition: opacity .25s;
+        }
+
+        .ev-cta:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 30px var(--card-glow);
+        }
+
+        .ev-cta:hover::before {
+            opacity: 1;
+        }
+
+        .ev-cta-arrow {
+            font-size: 1rem;
+            transition: transform .3s cubic-bezier(.34, 1.56, .64, 1);
+        }
+
+        .ev-cta:hover .ev-cta-arrow {
+            transform: translateX(5px);
+        }
+
+        /* ── CARD THEMES ── */
+        .theme-gaming {
+            --card-bg: rgba(20, 12, 4, .85);
+            --card-border: rgba(255, 160, 0, .18);
+            --card-accent: rgba(255, 160, 0, .4);
+            --card-accent-color: #FFB800;
+            --card-glow: rgba(255, 160, 0, .25);
+            --card-top-grad: linear-gradient(135deg, #7B3800 0%, #FF6800 50%, #FFB800 100%);
+            --card-prize-bg: rgba(255, 184, 0, .08);
+            --card-prize-border: rgba(255, 184, 0, .25);
+        }
+
+        .theme-technical {
+            --card-bg: rgba(0, 12, 22, .85);
+            --card-border: rgba(0, 200, 255, .18);
+            --card-accent: rgba(0, 200, 255, .35);
+            --card-accent-color: #00CFFF;
+            --card-glow: rgba(0, 200, 255, .2);
+            --card-top-grad: linear-gradient(135deg, #003355 0%, #0070AA 50%, #00CFFF 100%);
+            --card-prize-bg: rgba(0, 200, 255, .07);
+            --card-prize-border: rgba(0, 200, 255, .22);
+        }
+
+        .theme-cultural {
+            --card-bg: rgba(22, 4, 16, .85);
+            --card-border: rgba(255, 80, 160, .18);
+            --card-accent: rgba(255, 80, 160, .38);
+            --card-accent-color: #FF50A0;
+            --card-glow: rgba(255, 80, 160, .22);
+            --card-top-grad: linear-gradient(135deg, #5E0034 0%, #C0006A 50%, #FF50A0 100%);
+            --card-prize-bg: rgba(255, 80, 160, .07);
+            --card-prize-border: rgba(255, 80, 160, .22);
+        }
+
+        .theme-sports {
+            --card-bg: rgba(2, 16, 8, .85);
+            --card-border: rgba(52, 210, 110, .18);
+            --card-accent: rgba(52, 210, 110, .35);
+            --card-accent-color: #34D26E;
+            --card-glow: rgba(52, 210, 110, .2);
+            --card-top-grad: linear-gradient(135deg, #013D1A 0%, #077A36 50%, #34D26E 100%);
+            --card-prize-bg: rgba(52, 210, 110, .07);
+            --card-prize-border: rgba(52, 210, 110, .22);
+        }
+
+        /* ── REGISTER CTA SECTION ── */
+        .evt-cta-section {
+            padding: 120px 0;
+            text-align: center;
+            background: linear-gradient(180deg, var(--c-bg2) 0%, var(--c-bg) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .evt-cta-section::before {
+            content: '';
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(255, 77, 0, .09), transparent 65%);
+            pointer-events: none;
+        }
+
+        .evt-cta-title {
+            font-family: var(--font-hero);
+            font-size: clamp(4rem, 12vw, 9rem);
+            line-height: .85;
+            margin-bottom: 24px;
+        }
+
+        .evt-cta-title .w1 {
+            display: block;
+            color: #fff;
+        }
+
+        .evt-cta-title .w2 {
+            display: block;
+            background: linear-gradient(135deg, var(--c-orange), var(--c-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 40px rgba(255, 77, 0, .4));
+        }
+
+        /* ── RESPONSIVE ── */
+        @media(max-width:900px) {
+            .events-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+        }
+
+        @media(max-width:560px) {
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="bgCanvas"></canvas>
+    <header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="index.html" class="header-logo">
+      <div class="logo-icon-box">
+        <img src="logo.png" alt="Utsaha Vaibhava" class="nav-logo-img"/>
+      </div>
+      <div class="logo-wordmark">
+        <span class="logo-name">UTSAHA VAIBHAVA</span>
+        <span class="logo-sub">Est. 2026 &middot; BMSIT&amp;M</span>
+      </div>
+    </a>
+    <nav class="header-nav">
+      <ul class="nav-links" id="navLinks">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="events.html" class="active">Events</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="sponsors.html">Sponsors</a></li>
+      </ul>
+    </nav>
+    <a href="#register-cta" class="header-cta ripple-btn">Register Now</a>
+    <button class="header-menu-btn" id="menuBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="header-mobile-nav" id="mobileNav">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="sponsors.html">Sponsors</a></li>
+      <li><a href="events.html" class="mob-cta">Register Now</a></li>
+    </ul>
+  </div>
+</header>
+
+    <div class="page-content">
+
+        <!-- HERO -->
+        <section class="events-hero">
+            <div class="hero-orb hero-orb-1"></div>
+            <div class="hero-orb hero-orb-2"></div>
+            <div class="hero-noise"></div>
+            <div class="events-hero-inner">
+                <p class="section-eye">🎯 The Lineup</p>
+                <h1 style="font-family:var(--font-hero);font-size:clamp(4.5rem,14vw,10rem);line-height:.82;color:#fff">
+                    THIS YEAR'S
+                    <span style="background:linear-gradient(135deg,var(--c-orange),var(--c-pink));
+                -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+                filter:drop-shadow(0 0 40px rgba(255,77,0,.45))">EVENTS</span>
+                </h1>
+                <div
+                    style="width:72px;height:3px;background:linear-gradient(90deg,var(--c-orange),var(--c-pink));border-radius:99px;margin:24px 0">
+                </div>
+                <p style="color:var(--c-muted);font-size:1.05rem;max-width:560px;line-height:1.75">
+                    10 electrifying events across 4 categories — Cultural, Technical, Sports &amp; Gaming.
+                    Massive prize pool waiting to be claimed.
+                </p>
+            </div>
+        </section>
+
+        <div class="marquee-strip">
+            <div class="marquee-track" id="marqueeTrack"></div>
+        </div>
+
+        <!-- EVENTS SECTION -->
+        <section style="padding:80px 0 0">
+            <div class="container">
+                <div class="filters reveal">
+                    <button class="filter-btn active" data-cat="all">🎪 All Events</button>
+                    <button class="filter-btn" data-cat="Cultural">🎭 Cultural</button>
+                    <button class="filter-btn" data-cat="Technical">💻 Technical</button>
+                    <button class="filter-btn" data-cat="Sports">⚽ Sports</button>
+                    <button class="filter-btn" data-cat="Fun &amp; Gaming">🎮 Gaming</button>
+                </div>
+                <div class="events-grid" id="eventsGrid"></div>
+            </div>
+        </section>
+
+        <!-- REGISTER CTA -->
+        <section class="evt-cta-section" id="register-cta">
+            <div class="container" style="position:relative;z-index:1">
+                <div class="reveal">
+                    <p class="section-eye" style="text-align:center">✍️ Ready To Compete?</p>
+                    <h2 class="evt-cta-title">
+                        <span class="w1">ARE YOU</span>
+                        <span class="w2">READY?</span>
+                    </h2>
+                    <p
+                        style="color:var(--c-muted);max-width:500px;margin:0 auto 40px;line-height:1.8;font-size:1.05rem">
+                        Utsaha Vaibhava 2026 is happening April 10 &amp; 11. Don't miss the biggest college fest of the
+                        year.
+                        Register your team and claim your glory.
+                    </p>
+                    <a href="mailto:events@utsaha.ac.in" class="btn-fire ripple-btn"
+                        style="font-size:1.05rem;padding:18px 56px">
+                        🏆 Register Your Team
+                    </a>
+                    <p style="margin-top:24px;font-size:.8rem;color:rgba(255,255,255,.2)">Contact: events@utsaha.ac.in
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-logo">Utsaha Vaibhava 2026</div>
+            <ul class="footer-nav">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="sponsors.html">Sponsors</a></li>
+            </ul>
+            <p class="footer-copy">© 2026 BMS Institute of Technology and Management.</p>
+        </footer>
+    </div>
+
+    <script src="shared.js"></script>
+    <script>
+        initMarquee(); initCanvas(); initReveal(); initNav(); initMobileMenu(); initNavIndicator(); initRipple();
+
+        const EVENTS = [
+            {
+                title: 'BGMI', cat: 'Fun & Gaming', theme: 'theme-gaming',
+                icon: '🔫', bgIcon: '🎮', date: 'Apr 11', time: '10:00 AM',
+                desc: 'Battlegrounds Mobile India — 4-player squads battle for the Chicken Dinner. High-stakes eliminations on classic maps with a massive prize pool.',
+                prize: '₹6,000 / squad', size: '4-player squad', fee: '₹200/squad', venue: 'Gaming Zone'
+            },
+            {
+                title: 'Free Fire', cat: 'Fun & Gaming', theme: 'theme-gaming',
+                icon: '🔥', bgIcon: '💥', date: 'Apr 11', time: '11:30 AM',
+                desc: 'Fast-paced squad battle royale — 4-player teams fight to be the last squad standing in Free Fire\'s electrifying arena. Pure chaos, pure skill.',
+                prize: '₹4,000 / squad', size: '4-player squad', fee: '₹150/squad', venue: 'Gaming Zone'
+            },
+            {
+                title: 'Smash Karts', cat: 'Fun & Gaming', theme: 'theme-gaming',
+                icon: '🏎️', bgIcon: '🚀', date: 'Apr 10', time: '2:00 PM',
+                desc: 'Race, smash, and out-power opponents in this wildly fun browser kart combat game. Fastest lap + most eliminations wins.',
+                prize: '₹2,000', size: 'Individual', fee: '₹50/person', venue: 'Computer Lab'
+            },
+            {
+                title: 'Stumble Guys', cat: 'Fun & Gaming', theme: 'theme-gaming',
+                icon: '🤸', bgIcon: '🌀', date: 'Apr 10', time: '3:30 PM',
+                desc: 'Chaotic multiplayer knockout — survive wild obstacle courses and be the last one standing through pure chaos and lightning reflexes.',
+                prize: '₹2,000', size: 'Individual', fee: '₹50/person', venue: 'Computer Lab'
+            },
+            {
+                title: 'Clash Royale', cat: 'Fun & Gaming', theme: 'theme-gaming',
+                icon: '👑', bgIcon: '⚔️', date: 'Apr 11', time: '9:00 AM',
+                desc: '1v1 real-time card strategy battle — deploy your deck, destroy the king\'s tower, and conquer the arena in this intense bracket tournament.',
+                prize: '₹3,000', size: '1v1', fee: '₹100/person', venue: 'Student Centre'
+            },
+            {
+                title: 'CTF', cat: 'Technical', theme: 'theme-technical',
+                icon: '🚩', bgIcon: '🛡️', date: 'Apr 10', time: '10:00 AM',
+                desc: 'Capture The Flag — cyber-security challenge covering web exploitation, reverse engineering, cryptography, forensics & OSINT. 4-hour battle of wits.',
+                prize: '₹8,000', size: 'Teams of 2–3', fee: '₹150/team', venue: 'CS Lab, Block A'
+            },
+            {
+                title: 'Treasure Hunt', cat: 'Technical', theme: 'theme-technical',
+                icon: '🗺️', bgIcon: '🔍', date: 'Apr 11', time: '11:00 AM',
+                desc: 'Campus-wide multi-stage hunt with cryptic clues, logic puzzles, and hidden QR codes. Navigate, decode, and race to the finish.',
+                prize: '₹5,000', size: 'Teams of 3–4', fee: '₹100/team', venue: 'Entire Campus'
+            },
+            {
+                title: 'Battle of Bands', cat: 'Cultural', theme: 'theme-cultural',
+                icon: '🎸', bgIcon: '🎵', date: 'Apr 10', time: '4:00 PM',
+                desc: 'Unleash your musical talent in this epic rock & pop showdown. Solo artists and bands compete for the ultimate crown before a roaring crowd.',
+                prize: '₹10,000', size: '2–8 members', fee: '₹200/team', venue: 'Main Auditorium'
+            },
+            {
+                title: 'Nritya Sangam', cat: 'Cultural', theme: 'theme-cultural',
+                icon: '💃', bgIcon: '🌸', date: 'Apr 11', time: '2:00 PM',
+                desc: 'Vibrant dance competition celebrating classical and contemporary Indian forms — from Bharatanatyam to Bollywood fusion on the open air stage.',
+                prize: '₹7,000', size: '1–10 members', fee: '₹150/team', venue: 'Open Air Theatre'
+            },
+            {
+                title: 'Cricket Blitz', cat: 'Sports', theme: 'theme-sports',
+                icon: '🏏', bgIcon: '🏆', date: 'Apr 10', time: '8:00 AM',
+                desc: 'Thrilling T10 inter-college cricket — live commentary, cheer squads, knockout rounds, and championship trophies for the winning team.',
+                prize: '₹5,000', size: '11–15 players', fee: '₹500/team', venue: 'Cricket Ground'
+            },
+        ];
+
+        const grid = document.getElementById('eventsGrid');
+
+        EVENTS.forEach((ev, i) => {
+            const wrapper = document.createElement('div');
+            wrapper.className = `ev-card ${ev.theme}`;
+            wrapper.dataset.cat = ev.cat;
+            wrapper.innerHTML = `
+          <div class="ev-card-inner">
+            <div class="ev-top">
+              <div class="ev-top-bg-icon">${ev.bgIcon}</div>
+              <div class="ev-top-row">
+                <div class="ev-cat-pill">${ev.cat}</div>
+                <div class="ev-icon-box">${ev.icon}</div>
+              </div>
+            </div>
+            <div class="ev-body">
+              <div class="ev-name">${ev.title}</div>
+              <div class="ev-desc">${ev.desc}</div>
+              <div class="ev-prize">
+                <span>🏆</span>
+                <span>${ev.prize}</span>
+                <span class="ev-prize-label">Prize</span>
+              </div>
+              <div class="ev-meta">
+                <span class="ev-meta-tag">📅 ${ev.date}</span>
+                <span class="ev-meta-tag">⏰ ${ev.time}</span>
+                <span class="ev-meta-tag">👥 ${ev.size}</span>
+                <span class="ev-meta-tag">📍 ${ev.venue}</span>
+                <span class="ev-meta-tag">💰 ${ev.fee}</span>
+              </div>
+            </div>
+            <div class="ev-footer">
+              <a href="mailto:events@utsaha.ac.in?subject=Register: ${ev.title}" class="ev-cta ripple-btn">
+                Register for ${ev.title} <span class="ev-cta-arrow">→</span>
+              </a>
+            </div>
+          </div>
+        `;
+            grid.appendChild(wrapper);
+        });
+
+        /* Scroll-reveal for cards with stagger */
+        const cardObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    cardObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.ev-card').forEach(card => cardObserver.observe(card));
+
+        /* Filter buttons */
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const cat = btn.dataset.cat;
+                document.querySelectorAll('.ev-card').forEach(card => {
+                    const hide = cat !== 'all' && card.dataset.cat !== cat;
+                    card.classList.toggle('hidden', hide);
+                });
+            });
+        });
+
+        /* Activate from URL param */
+        const urlCat = new URLSearchParams(location.search).get('cat');
+        if (urlCat) {
+            const btn = document.querySelector(`[data-cat="${urlCat}"]`);
+            if (btn) btn.click();
+        }
+
+        /* 3-D magnetic tilt on mousemove */
+        document.querySelectorAll('.ev-card-inner').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const r = card.getBoundingClientRect();
+                const x = (e.clientX - r.left) / r.width - 0.5;  // -0.5 to 0.5
+                const y = (e.clientY - r.top) / r.height - 0.5;
+                card.style.transform = `translateY(-14px) rotateX(${-y * 6}deg) rotateY(${x * 8}deg)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+    </script>
+</body>
+
+</html>
+
+
+

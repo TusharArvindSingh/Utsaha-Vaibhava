@@ -1,0 +1,595 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>About — Utsaha Vaibhava 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel:wght@600;700;900&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        .about-story {
+            min-height: 60vh;
+            display: flex;
+            align-items: flex-end;
+            padding: 160px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+            padding-bottom: 80px;
+        }
+
+        .about-title {
+            font-family: var(--font-hero);
+            font-size: clamp(3.5rem, 10vw, 7rem);
+            line-height: .85;
+            margin-bottom: 24px;
+        }
+
+        .about-title .fire-grad {
+            background: linear-gradient(135deg, var(--c-orange) 0%, var(--c-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(255, 77, 0, .35));
+        }
+
+        .about-text {
+            font-size: .98rem;
+            color: var(--c-muted);
+            line-height: 1.9;
+            margin-bottom: 16px;
+        }
+
+        .about-hls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 28px 0;
+        }
+
+        .about-hl {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid rgba(255, 255, 255, .08);
+            font-size: .83rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, .7);
+            transition: all .3s ease;
+        }
+
+        .about-hl:hover {
+            background: rgba(255, 77, 0, .08);
+            border-color: rgba(255, 77, 0, .25);
+            transform: translateX(4px);
+        }
+
+        .about-card-wrap {
+            position: relative;
+            width: 100%;
+        }
+
+        .about-main-card {
+            background: rgba(255, 77, 0, .06);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 77, 0, .2);
+            border-radius: 24px;
+            padding: 36px;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, .4), inset 0 1px 0 rgba(255, 120, 80, .1);
+        }
+
+        .about-back-card {
+            position: absolute;
+            inset: 0;
+            transform: rotate(4deg) translateY(10px);
+            border-radius: 24px;
+            background: rgba(255, 0, 112, .06);
+            border: 1px solid rgba(255, 0, 112, .15);
+        }
+
+        .acs {
+            display: flex;
+            border-top: 1px solid rgba(255, 255, 255, .07);
+            padding-top: 16px;
+            text-align: center;
+        }
+
+        .acs-i {
+            flex: 1;
+            padding: 0 12px;
+            border-right: 1px solid rgba(255, 255, 255, .06);
+        }
+
+        .acs-i:last-child {
+            border-right: none;
+        }
+
+        .acs-n {
+            font-family: var(--font-hero);
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--c-orange), var(--c-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .acs-l {
+            font-size: .65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: var(--c-muted);
+        }
+
+        .card-emoji {
+            font-size: 2.8rem;
+            margin-bottom: 12px;
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+            color: #fff;
+        }
+
+        .card-date {
+            color: var(--c-orange);
+            font-weight: 600;
+            margin-bottom: 16px;
+            font-size: .9rem;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+
+        .tag-v2 {
+            padding: 5px 12px;
+            border-radius: 999px;
+            font-size: .72rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, .07);
+            border: 1px solid rgba(255, 255, 255, .1);
+            color: rgba(255, 255, 255, .65);
+        }
+
+        .about-countdown {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(180deg, var(--c-bg) 0%, var(--c-bg2) 100%);
+        }
+
+        .cd-num {
+            min-width: 110px;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 77, 0, .06);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 77, 0, .22);
+            border-radius: 18px;
+            position: relative;
+            overflow: hidden;
+            transition: transform .3s ease, box-shadow .3s ease;
+        }
+
+        .cd-num:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, .5), 0 0 24px rgba(255, 77, 0, .18);
+            border-color: rgba(255, 77, 0, .45);
+        }
+
+        .cd-num::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--c-orange), transparent);
+        }
+
+        .cd-digit {
+            font-family: var(--font-hero);
+            font-size: clamp(2.4rem, 5vw, 3.8rem);
+            line-height: 1;
+            background: linear-gradient(180deg, var(--c-orange) 0%, #FF2D00 60%, var(--c-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cd-flip {
+            animation: digitFlip .35s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
+        .cd-label {
+            font-size: .7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            color: var(--c-muted);
+        }
+
+        .cd-sep {
+            font-family: var(--font-hero);
+            font-size: 2.8rem;
+            color: var(--c-orange);
+            opacity: .5;
+            margin-bottom: 22px;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 56px;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 40px 20px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, .03);
+            border: 1px solid rgba(255, 255, 255, .07);
+            transition: all .4s cubic-bezier(.34, 1.56, .64, 1);
+        }
+
+        .stat-box:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 77, 0, .3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .4), 0 0 30px rgba(255, 77, 0, .1);
+        }
+
+        .stat-box-num {
+            font-family: var(--font-hero);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            background: linear-gradient(160deg, var(--c-orange), var(--c-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-box-lbl {
+            font-size: .78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: var(--c-muted);
+            margin-top: 8px;
+        }
+
+        .ready-cta {
+            padding: 100px 0;
+            text-align: center;
+            background: linear-gradient(180deg, var(--c-bg2) 0%, var(--c-bg) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ready-cta::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(255, 77, 0, .08), transparent 70%);
+            pointer-events: none;
+        }
+
+        .ready-title {
+            font-family: var(--font-hero);
+            font-size: clamp(4rem, 12vw, 9rem);
+            line-height: .85;
+            margin-bottom: 24px;
+        }
+
+        .ready-title .w1 {
+            display: block;
+            color: #fff;
+        }
+
+        .ready-title .w2 {
+            display: block;
+            background: linear-gradient(135deg, var(--c-orange) 0%, var(--c-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 40px rgba(255, 77, 0, .4));
+        }
+
+        @media(max-width:900px) {
+            .about-story-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .about-hls {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width:500px) {
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="bgCanvas"></canvas>
+    <header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="index.html" class="header-logo">
+      <div class="logo-icon-box">
+        <img src="logo.png" alt="Utsaha Vaibhava" class="nav-logo-img"/>
+      </div>
+      <div class="logo-wordmark">
+        <span class="logo-name">UTSAHA VAIBHAVA</span>
+        <span class="logo-sub">2026 &middot; BMSIT&amp;M</span>
+      </div>
+    </a>
+    <nav class="header-nav">
+      <ul class="nav-links" id="navLinks">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="about.html" class="active">About</a></li>
+          <li><a href="sponsors.html">Sponsors</a></li>
+      </ul>
+    </nav>
+    <a href="events.html" class="header-cta ripple-btn">Register Now</a>
+    <button class="header-menu-btn" id="menuBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="header-mobile-nav" id="mobileNav">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="sponsors.html">Sponsors</a></li>
+      <li><a href="events.html" class="mob-cta">Register Now</a></li>
+    </ul>
+  </div>
+</header>
+
+    <div class="page-content">
+        <!-- STORY SECTION -->
+        <section class="about-story">
+            <div class="hero-orb hero-orb-1"></div>
+            <div class="hero-orb hero-orb-2"></div>
+            <div class="hero-noise"></div>
+            <div class="container" style="width:100%">
+                <div class="about-story-grid">
+                    <!-- LEFT: Text -->
+                    <div class="reveal-left">
+                        <p class="section-eye">🌟 The Story</p>
+                        <h1 class="about-title">
+                            THE FEST THAT <span class="fire-grad">HITS</span><br />
+                            <span class="fire-grad">DIFFERENT</span>
+                        </h1>
+                        <p class="about-text">Utsaha Vaibhava is the flagship annual celebration of BMS Institute of
+                            Technology and Management — where creativity, engineering, sports, and music collide in one
+                            electrifying two-day experience.</p>
+                        <p class="about-text">From electrifying Battle of Bands to Capture The Flag hackathons, from
+                            cricket
+                            blitz to esports showdowns — this is where passion meets competition and memories are made
+                            for life.</p>
+                        <div class="about-hls">
+                            <div class="about-hl">🏆 ₹4L+ in total prizes</div>
+                            <div class="about-hl">🎪 10+ events all domains</div>
+                            <div class="about-hl">🎓 20+ colleges attending</div>
+                            <div class="about-hl">📅 April 10 &amp; 11, 2026</div>
+                            <div class="about-hl">🏫 BMS Institute of Tech</div>
+                            <div class="about-hl">👥 500+ participants</div>
+                        </div>
+                        <a href="events.html" class="btn-fire ripple-btn">Browse All Events →</a>
+                    </div>
+                    <!-- RIGHT: Card -->
+                    <div class="reveal-right" style="display:flex;justify-content:center">
+                        <div class="about-card-wrap" style="max-width:320px">
+                            <div class="about-back-card"></div>
+                            <div class="about-main-card">
+                                <div class="card-emoji">🎉</div>
+                                <div class="card-title">Utsaha Vaibhava 2026</div>
+                                <div class="card-date">April 10 &amp; 11, 2026</div>
+                                <div class="tags">
+                                    <span class="tag-v2">Main Stage</span>
+                                    <span class="tag-v2">Cultural</span>
+                                    <span class="tag-v2">Technical</span>
+                                    <span class="tag-v2">Sports</span>
+                                    <span class="tag-v2">Gaming</span>
+                                </div>
+                                <div class="acs">
+                                    <div class="acs-i">
+                                        <div class="acs-n">10+</div>
+                                        <div class="acs-l">Events</div>
+                                    </div>
+                                    <div class="acs-i">
+                                        <div class="acs-n">₹4L+</div>
+                                        <div class="acs-l">Prizes</div>
+                                    </div>
+                                    <div class="acs-i">
+                                        <div class="acs-n">2</div>
+                                        <div class="acs-l">Days</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="marquee-strip">
+            <div class="marquee-track" id="marqueeTrack"></div>
+        </div>
+
+        <!-- COUNTDOWN -->
+        <section class="about-countdown">
+            <div class="container" style="max-width:860px">
+                <div class="reveal" style="text-align:center">
+                    <p class="section-eye">⏳ Tick Tock</p>
+                    <h2
+                        style="font-family:var(--font-hero);font-size:clamp(3.5rem,10vw,7rem);line-height:.88;color:#fff;margin-bottom:0">
+                        TIME IS <span style="background:linear-gradient(135deg,var(--c-orange),var(--c-pink));
+        -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+        filter:drop-shadow(0 0 20px rgba(255,77,0,.3))">RUNNING OUT</span>
+                    </h2>
+                    <div
+                        style="width:60px;height:3px;background:linear-gradient(90deg,var(--c-orange),var(--c-pink));border-radius:99px;margin:20px auto 48px">
+                    </div>
+                </div>
+                <div class="reveal d2"
+                    style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:32px">
+                    <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+                        <div class="cd-num">
+                            <div class="cd-digit" id="cd-days">00</div>
+                        </div>
+                        <div class="cd-label">Days</div>
+                    </div>
+                    <div class="cd-sep">:</div>
+                    <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+                        <div class="cd-num">
+                            <div class="cd-digit" id="cd-hours">00</div>
+                        </div>
+                        <div class="cd-label">Hours</div>
+                    </div>
+                    <div class="cd-sep">:</div>
+                    <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+                        <div class="cd-num">
+                            <div class="cd-digit" id="cd-mins">00</div>
+                        </div>
+                        <div class="cd-label">Minutes</div>
+                    </div>
+                    <div class="cd-sep">:</div>
+                    <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+                        <div class="cd-num">
+                            <div class="cd-digit" id="cd-secs">00</div>
+                        </div>
+                        <div class="cd-label">Seconds</div>
+                    </div>
+                </div>
+                <div class="reveal d3" style="text-align:center">
+                    <span style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:999px;
+      background:rgba(255,77,0,.07);border:1px solid rgba(255,77,0,.2);
+      font-size:.9rem;color:rgba(255,255,255,.55);font-weight:500">
+                        📅 April 10 &amp; 11, 2026 &nbsp;|&nbsp; 🏫 BMS Institute of Technology
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- STATS BY THE NUMBERS -->
+        <section style="padding:80px 0 100px">
+            <div class="container">
+                <div class="reveal" style="text-align:center">
+                    <p class="section-eye">📊 By The Numbers</p>
+                    <h2
+                        style="font-family:var(--font-hero);font-size:clamp(4rem,10vw,7rem);line-height:.88;color:#fff;margin-bottom:0">
+                        THE <span
+                            style="background:linear-gradient(135deg,var(--c-orange),var(--c-pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">SCALE</span>
+                    </h2>
+                    <div
+                        style="width:60px;height:3px;background:linear-gradient(90deg,var(--c-orange),var(--c-pink));border-radius:99px;margin:20px auto 0">
+                    </div>
+                </div>
+                <div class="stats-row">
+                    <div class="stat-box reveal d1">
+                        <div class="stat-box-num">10+</div>
+                        <div class="stat-box-lbl">Total Events</div>
+                    </div>
+                    <div class="stat-box reveal d2">
+                        <div class="stat-box-num">4</div>
+                        <div class="stat-box-lbl">Categories</div>
+                    </div>
+                    <div class="stat-box reveal d3">
+                        <div class="stat-box-num">₹4L+</div>
+                        <div class="stat-box-lbl">Prize Pool</div>
+                    </div>
+                    <div class="stat-box reveal d4">
+                        <div class="stat-box-num">500+</div>
+                        <div class="stat-box-lbl">Participants</div>
+                    </div>
+                    <div class="stat-box reveal d5">
+                        <div class="stat-box-num">20+</div>
+                        <div class="stat-box-lbl">Colleges</div>
+                    </div>
+                    <div class="stat-box reveal d6">
+                        <div class="stat-box-num">2</div>
+                        <div class="stat-box-lbl">Epic Days</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ARE YOU READY CTA -->
+        <section class="ready-cta">
+            <div class="container" style="position:relative;z-index:1">
+                <div class="reveal">
+                    <p class="section-eye" style="text-align:center">🚀 Join The Action</p>
+                    <h2 class="ready-title">
+                        <span class="w1">ARE YOU</span>
+                        <span class="w2">READY?</span>
+                    </h2>
+                    <p style="color:var(--c-muted);max-width:480px;margin:0 auto 40px;line-height:1.7;font-size:1rem">
+                        Utsaha Vaibhava 2026 is happening April 10 &amp; 11. Don't miss the biggest college fest of the
+                        year.
+                        Register your team and claim your glory.
+                    </p>
+                    <a href="events.html" class="btn-fire ripple-btn" style="font-size:1.05rem;padding:20px 56px">
+                        🏆 Register Your Team
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-logo">Utsaha Vaibhava 2026</div>
+            <ul class="footer-nav">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="sponsors.html">Sponsors</a></li>
+            </ul>
+            <p class="footer-copy">© 2026 BMS Institute of Technology and Management.</p>
+        </footer>
+    </div>
+
+    <script src="shared.js"></script>
+    <script>initMarquee(); initCountdown(); initCanvas(); initReveal(); initNav(); initMobileMenu(); initNavIndicator(); initRipple();</script>
+</body>
+
+</html>
+
+
+
+
